@@ -1,6 +1,7 @@
 import { Agent } from '@mastra/core/agent'
 import { Memory } from '@mastra/memory'
 import { LibSQLStore } from '@mastra/libsql'
+import { config } from '../../config';
 
 export const textMessageAgent = new Agent({
   id: 'text-message-agent',
@@ -27,8 +28,8 @@ export const textMessageAgent = new Agent({
   memory: new Memory({
     storage: new LibSQLStore({
       id: 'libsql-storage',
-      url: process.env.TURSO_URL as string,
-      authToken: process.env.TURSO_AUTH_TOKEN,
+      url: config.TURSO_URL as string,
+      authToken: config.TURSO_AUTH_TOKEN,
     }),
   }),
 })

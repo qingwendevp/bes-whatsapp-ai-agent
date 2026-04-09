@@ -1,5 +1,7 @@
 // Simple WhatsApp Business API client for sending messages
 
+import { config } from './config';
+
 interface SendMessageParams {
   to: string
   message: string
@@ -7,9 +9,9 @@ interface SendMessageParams {
 
 export async function sendWhatsAppMessage({ to, message }: SendMessageParams) {
   // Get environment variables for WhatsApp API
-  const apiVersion = process.env.WHATSAPP_API_VERSION || 'v22.0'
-  const phoneNumberId = process.env.WHATSAPP_BUSINESS_PHONE_NUMBER_ID
-  const accessToken = process.env.WHATSAPP_ACCESS_TOKEN
+  const apiVersion = config.WHATSAPP_API_VERSION || 'v22.0'
+  const phoneNumberId = config.WHATSAPP_BUSINESS_PHONE_NUMBER_ID
+  const accessToken = config.WHATSAPP_ACCESS_TOKEN
 
   // Check if required environment variables are set
   if (!phoneNumberId || !accessToken) {

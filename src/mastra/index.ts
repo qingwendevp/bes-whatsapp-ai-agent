@@ -8,10 +8,11 @@ import { chatWorkflow } from './workflows/chat-workflow'
 import { textMessageAgent } from './agents/text-message-agent'
 import { chatAgent } from './agents/chat-agent'
 import { sendWhatsAppMessage } from '../whatsapp-client'
-// import { setGlobalDispatcher, ProxyAgent } from 'undici';
+import { setGlobalDispatcher, ProxyAgent } from 'undici';
+import { config } from '../config';
 // 设置全局代理
-// const proxyAgent = new ProxyAgent('http://127.0.0.1:7890');
-// setGlobalDispatcher(proxyAgent);
+const proxyAgent = new ProxyAgent('http://127.0.0.1:7890');
+setGlobalDispatcher(proxyAgent);
 
 export const mastra = new Mastra({
   deployer: new VercelDeployer(),
@@ -19,8 +20,8 @@ export const mastra = new Mastra({
   agents: { textMessageAgent, chatAgent },
   storage: new LibSQLStore({
     id: 'libsql-storage',
-    url: process.env.TURSO_URL as string,
-    authToken: process.env.TURSO_AUTH_TOKEN,
+      url: config.TURSO_URL as string,
+      authToken: config.TURSO_AUTH_TOKEN,
   }),
   logger: new PinoLogger({
     name: 'Mastra',
@@ -31,7 +32,7 @@ export const mastra = new Mastra({
       registerApiRoute('/whatsapp', {
         method: 'GET',
         handler: async c => {
-          const verifyToken = process.env.WHATSAPP_VERIFY_TOKEN
+          const verifyToken = config.WHATSAPP_VERIFY_TOKEN
           const {
             'hub.mode': mode,
             'hub.challenge': challenge,
