@@ -8,11 +8,11 @@ import { chatWorkflow } from './workflows/chat-workflow'
 import { textMessageAgent } from './agents/text-message-agent'
 import { chatAgent } from './agents/chat-agent'
 import { sendWhatsAppMessage } from '../whatsapp-client'
-import { setGlobalDispatcher, ProxyAgent } from 'undici';
+// import { setGlobalDispatcher, ProxyAgent } from 'undici';
 import { config } from '../config';
 // 设置全局代理
-const proxyAgent = new ProxyAgent('http://127.0.0.1:7890');
-setGlobalDispatcher(proxyAgent);
+// const proxyAgent = new ProxyAgent('http://127.0.0.1:7890');
+// setGlobalDispatcher(proxyAgent);
 
 export const mastra = new Mastra({
   deployer: new VercelDeployer(),
