@@ -1,4 +1,5 @@
 import { Mastra } from '@mastra/core'
+import { VercelDeployer } from '@mastra/deployer-vercel'
 import { registerApiRoute } from '@mastra/core/server'
 import { PinoLogger } from '@mastra/loggers'
 import { LibSQLStore } from '@mastra/libsql'
@@ -13,6 +14,7 @@ import { sendWhatsAppMessage } from '../whatsapp-client'
 // setGlobalDispatcher(proxyAgent);
 
 export const mastra = new Mastra({
+  deployer: new VercelDeployer(),
   workflows: { chatWorkflow },
   agents: { textMessageAgent, chatAgent },
   storage: new LibSQLStore({

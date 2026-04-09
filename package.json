@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@mastra/core": "^1.23.0",
+    "@mastra/deployer-vercel": "^1.1.16",
     "@mastra/duckdb": "^1.1.1",
     "@mastra/evals": "^1.2.1",
     "@mastra/libsql": "^1.8.0",
