@@ -18,8 +18,9 @@ export const mastra = new Mastra({
   workflows: { chatWorkflow },
   agents: { textMessageAgent, chatAgent },
   storage: new LibSQLStore({
-    id: 'agent-storage',
-    url: ':memory:',
+    id: 'libsql-storage',
+    url: process.env.TURSO_URL as string,
+    authToken: process.env.TURSO_AUTH_TOKEN,
   }),
   logger: new PinoLogger({
     name: 'Mastra',

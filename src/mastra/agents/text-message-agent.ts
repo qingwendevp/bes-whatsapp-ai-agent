@@ -26,8 +26,9 @@ export const textMessageAgent = new Agent({
   model: 'alibaba/qwen3.5-plus',
   memory: new Memory({
     storage: new LibSQLStore({
-      id: 'agent-storage',
-      url: 'file:../mastra.db',
+      id: 'libsql-storage',
+      url: process.env.TURSO_URL as string,
+      authToken: process.env.TURSO_AUTH_TOKEN,
     }),
   }),
 })
