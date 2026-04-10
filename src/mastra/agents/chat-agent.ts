@@ -1,7 +1,6 @@
 import { Agent } from '@mastra/core/agent'
 import { Memory } from '@mastra/memory'
 import { LibSQLStore } from '@mastra/libsql'
-import { config } from '../../config';
 
 export const chatAgent = new Agent({
   id: 'chat-agent',
@@ -36,9 +35,8 @@ export const chatAgent = new Agent({
   model: 'alibaba/qwen3.5-plus',
   memory: new Memory({
     storage: new LibSQLStore({
-      id: 'libsql-storage',
-      url: config.TURSO_URL as string,
-      authToken: config.TURSO_AUTH_TOKEN,
+      id: 'agent-storage',
+      url: process.env.SQLITE_URL as string,
     }),
   }),
 })
