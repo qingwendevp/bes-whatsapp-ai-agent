@@ -89,7 +89,7 @@ export const chatWorkflow = createWorkflow({
 })
   .then(respondToMessage)
   .map(async ({ inputData }) => ({
-    prompt: `Break this AI response into 3-8 casual, friendly text messages that feel natural for WhatsApp conversation:\n\n${inputData.response}`,
+    prompt: `Break this AI response into 1-2 casual, friendly text messages that feel natural for WhatsApp conversation:\n\n${inputData.response}`,
   }))
   .then(breakIntoMessages)
   .map(async ({ inputData, getInitData }) => {
