@@ -80,7 +80,7 @@ export const mastra = new Mastra({
         method: 'POST',
         handler: async c => {
           handler();
-          
+
           async function handler() {
             const mastra = c.get('mastra')
             const chatWorkflow = mastra.getWorkflow('chatWorkflow')
@@ -97,7 +97,7 @@ export const mastra = new Mastra({
 
             webhookIdList.push(id);
 
-            if (!body?.entry?.[0]?.changes?.value?.[0]?.messages?.[0]?.from) {
+            if (!body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0].from) {
               return;
             }
 
