@@ -88,10 +88,10 @@ export const chatWorkflow = createWorkflow({
   outputSchema: z.object({ sentCount: z.number() }),
 })
   .then(respondToMessage)
-  .map(async ({ inputData }) => ({
-    prompt: `Break this AI response into 1-2 casual, friendly text messages that feel natural for WhatsApp conversation:\n\n${inputData.response}`,
-  }))
-  .then(breakIntoMessages)
+  // .map(async ({ inputData }) => ({
+  //   prompt: `Break this AI response into 2-3 casual, friendly text messages that feel natural for WhatsApp conversation:\n\n${inputData.response}`,
+  // }))
+  // .then(breakIntoMessages)
   .map(async ({ inputData, getInitData }) => {
     // Parse the original stringified input to get user phone
     const initData = getInitData<typeof chatWorkflow>()
@@ -99,7 +99,8 @@ export const chatWorkflow = createWorkflow({
     const userPhone = webhookData.entry?.[0]?.changes?.[0]?.value?.messages?.[0]?.from || 'unknown'
 
     return {
-      messages: inputData.messages,
+      // messages: inputData.messages,
+      messages: [inputData.response],
       userPhone,
     }
   })
