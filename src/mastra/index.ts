@@ -19,6 +19,8 @@ if (process.env.ENV === 'local') {
   setGlobalDispatcher(proxyAgent);
 }
 
+const webhookIdList: string[] = [];
+
 export const mastra = new Mastra({
   // deployer: new VercelDeployer(),
   workflows: { chatWorkflow },
@@ -77,23 +79,35 @@ export const mastra = new Mastra({
       registerApiRoute('/whatsapp', {
         method: 'POST',
         handler: async c => {
-          const mastra = c.get('mastra')
-          const chatWorkflow = mastra.getWorkflow('chatWorkflow')
+          handler();
+          
+          async function handler() {
+            const mastra = c.get('mastra')
+            const chatWorkflow = mastra.getWorkflow('chatWorkflow')
 
-          const body = await c.req.json()
+            const body = await c.req.json()
+            const id = body?.entry[0].id;
 
-          console.log('whatsapp webhook body: ', JSON.stringify(body));
+            console.log('whatsapp webhook body: ', JSON.stringify(body));
 
-          if (!body?.entry?.[0]?.changes?.value?.[0]?.messages?.[0]?.from) {
-            return;
+            if (webhookIdList.includes(id)) {
+              console.log('消息已处理，忽略');
+              return;
+            }
+
+            webhookIdList.push(id);
+
+            if (!body?.entry?.[0]?.changes?.value?.[0]?.messages?.[0]?.from) {
+              return;
+            }
+
+            const workflowRun = await chatWorkflow.createRun()
+            const runResult = await workflowRun.start({
+              inputData: { userMessage: JSON.stringify(body) },
+            })
           }
 
-          const workflowRun = await chatWorkflow.createRun()
-          const runResult = await workflowRun.start({
-            inputData: { userMessage: JSON.stringify(body) },
-          })
-
-          return c.json(runResult)
+          return c.status(200);
         },
       }),
 
